@@ -1,0 +1,356 @@
+package Transption;
+import java.util.Scanner;
+import java.lang.Integer;
+
+ public class Kullanici_Girisi 
+ {
+	
+	public  StringBuilder text;
+	 public void kullanici_girisi()
+	 {
+		 
+		 text=new StringBuilder();
+		 Scanner scan=new Scanner(System.in);
+		 Transaction ts=new Transaction();
+		 
+		 System.out.println("L�tfen isim giriniz:");
+		 String s=null;
+		 Boolean t=true;
+		 s=scan.next();
+		 while(t) 
+		 {
+		
+	 			if(s.contains("1")||s.contains("2")||s.contains("3")||s.contains("4")||s.contains("5")||
+	 					s.contains("6")||s.contains("7")||s.contains("8")||s.contains("9")||s.contains("0")) 
+	 			{
+	 				
+	 			
+	 				System.out.println("l�tfen ge�erli bir isim giriniz ");
+	 				s=scan.next();
+			 		
+	 			}
+	 			else 
+	 			{
+	 				t=false; 
+	 			}
+	 			
+		 }
+		 ts.setName(s);
+		 text.append("�sim:	");
+	 	 text.append(s+"\n");
+	 		
+	 	 System.out.println("L�tfen soy isim girin");
+	 	s=scan.next();
+	 	 //t=true;
+	 	 while(true) 
+	 	 {
+	 			
+	 			
+	 			if(s.contains("1")||s.contains("2")||s.contains("3")||s.contains("4")||s.contains("5")||
+	 					s.contains("6")||s.contains("7")||s.contains("8")||s.contains("9")||s.contains("0")) 
+	 			{
+	 				System.out.println("l�tfen ge�erli bir soy isim giriniz ");
+	 				s=scan.next();
+		 
+	 			}
+	 			else 
+	 			{
+	 				//t=false; 
+	 				break;
+	 			}
+		 	
+	 		
+	 	  }
+	 	//String str= String.valueOf(i); 
+		 	ts.setSurname(s);
+		 	 text.append("Soyisim:	");
+		 	 text.append(s+"\n");
+		 		
+	 		System.out.println("L�tfen card numaras� girin");
+	 		s=scan.next();
+	 		
+			 t=true;
+	 		
+	 		while(t) 
+		 	 {
+	 			
+	 			 
+		 			if(s.contains("a")||s.contains("b")||s.contains("c")||s.contains("d")||
+		 				s.contains("e")||s.contains("f")||s.contains("g")||s.contains("h")||
+		 				s.contains("j")||s.contains("z")) 
+		 			{
+		 				System.out.println("l�tfen ge�erli kart numaras�  giriniz ");
+		 				s=scan.next();
+			 
+		 			}
+		 			else 
+		 			{
+		 				t=false; 
+		 			}
+			 	
+		 		
+		 	  }
+	 		
+		 	ts.setCard_No(s);
+		 	 text.append("Kart numaras�:	");
+		 	 text.append(s+"\n");
+
+		 
+	 		Password pw=new Password();
+	 
+	 		pw.pw();
+	 		text.append("Kart �ifresi:	");
+	 		
+	 		ts.setSifre(pw.sifre);
+	 	
+	 		
+	 		Atm atm=new Atm();
+	 		StringBuilder PS =new StringBuilder();
+	 		if (pw.b) 
+	 		{
+ 		
+ 			
+	 			for(int i=0;i<ts.getSifre().length();i++) 
+	 			{
+	 				PS.append ("*");
+	 			}
+	 			text.append(PS);
+	 			
+	 			atm.atm();
+	 		}
+	 		else 
+	 			
+	 		{
+	 			text.append("girilen �ifreler yanl��");
+	 			System.out.println("sistemden ��k�� yap�ld� ");
+	 			
+	 		}
+	 		
+
+     }
+
+	 
+}
+package Transption;
+
+import java.io.*;
+import java.util.Date;
+import java.util.Scanner;
+
+public class MainData 
+	{
+		public static void main (String[] args) 
+		{
+		
+		Kullanici_Girisi kullanici_girisi=new Kullanici_Girisi ();
+		kullanici_girisi.kullanici_girisi();
+		try 
+		{
+			File file=new File("C:\\Users\\senel\\Desktop\\Transaction.txt").getCanonicalFile();
+			
+			
+			if(!file.exists())
+				file.createNewFile();
+			
+			
+			FileWriter fw= new FileWriter (file,true);
+			BufferedWriter writer = new BufferedWriter(fw);
+			writer.write(kullanici_girisi.text.toString());
+			writer.close();
+			
+			
+		 	
+		 	System.out.println( new Date());
+			
+		}catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		}
+		
+	}
+
+package Transption;
+import java.util.Scanner;
+public class Password 
+{
+	
+   int k1=0;
+   public boolean b;
+
+   String sifre;
+   
+   public void pw() 
+   {
+		 
+	   String setSifre="123";
+		 		Scanner nb=new Scanner(System.in);
+		  
+		 		boolean a=true;
+		 		int hak=3;
+		 		System.out.println("Bir �ifre Giriniz:");
+		 		
+		 		while( k1<3)
+		 		{
+		 			    sifre = null;
+						sifre=nb.next();
+						if(sifre.equals(setSifre))
+						{
+							System.out.println("�ifre do�ru");
+							b=true;
+							break;
+						}
+						else 
+						{
+							k1++;
+							hak--;
+						}
+					
+		
+						if(k1<=2) 
+						{
+							System.out.println(hak+"hakk�n�z kald�");
+							System.out.print("yeni �ifre deneyin: ");
+						}
+		 												
+		 		}
+		 						
+ 				if(k1==3)
+ 				{
+ 					System.out.println("kart�n bloke oldu en yak�n �ubeye git ");
+				}
+		 }				
+}
+package Transption;
+
+ public class Transaction
+	{
+	 private String name;
+	 private String surname;
+	 private String card_no;
+	 
+	 private String sifre;
+	 
+	 
+	 
+	 
+	 
+	 public void setName(String name) 
+	  {
+		
+		 this.name=name;
+	  }
+	 
+	 public String  getName() 
+	 {
+	  return name;	
+	 }
+	 public void setSurname(String surname)
+	 
+	 {
+		 this.surname=surname;
+		 
+	 }
+	 public String setSurname()
+	 {
+		 return surname;
+	 }
+	 public void setCard_No(String card_no)
+	 {
+		 this.card_no=card_no;
+	 }
+	 public String getCard_No()
+	 {
+		 return card_no;
+	 }
+	 public void setSifre(String sifre)
+	 {
+		this.sifre=sifre;
+	 }
+	 public String getSifre() 
+	 {
+		return sifre; 
+	 }
+
+	}
+
+package Transption;
+
+import java.util.Scanner;
+
+public class Atm {
+	
+		public void atm() {
+		
+		
+			String islemler="1: Bakiye �gren\n"+
+							"2: Para Cekme \n"+
+							"3: Para Yat�rma \n"+
+							"4: Programdan C�k \n";
+			double Bakiye=100;
+			double gt;
+							
+		 Scanner tus=new Scanner(System.in);
+		 System.out.println("************************************\n"+
+				 			islemler+"\n"+
+				 			"************************************\n"+
+				 			"Yapmak istedi�iniz i�lemi se�iniz :");
+		
+	  int a=tus.nextInt();
+		switch(a) {
+		
+		case 1:
+			
+			System.out.println("Bakiyeniz :"+Bakiye+"TL 'dir");
+			System.out.println("�yi G�nler ");
+			break;
+		case 2:
+			
+			
+			System.out.println("Bir tutar giriniz:");
+			 gt=tus.nextDouble();		
+			if (gt<=Bakiye) {
+			Bakiye=Bakiye-gt;
+			System.out.println("paran�z� al�n�z");
+			System.out.println("Kalan paran�z	"+Bakiye+"	TL dir");
+			
+							}
+			else if(gt>Bakiye) {
+				
+			System.out.println("Bakiye yetmemektedir :( ");
+				
+			System.out.println("Ba�ka bir tutar  girin ");
+					gt=tus.nextDouble();
+				
+			
+								}
+			break;
+	
+		case 3:
+			
+			System.out.println("Bir tutar giriniz:");
+			
+			 gt=tus.nextDouble();
+			 Bakiye=Bakiye+gt;
+			 System.out.println("Yeni Bakiyeniz :"+Bakiye+"TL dir.");
+			 System.out.println("iyi g�nler");
+			 break;
+			
+			  
+			  
+		case 4:
+			System.out.println("Programdan ciktiniz iyi g�nler");
+		
+			break;
+					}
+		
+		
+		
+		
+		
+		
+		
+   }
+
+						}
